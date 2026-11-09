@@ -5,13 +5,15 @@ class Portal(
     color: String
 ): Entity(Vec2(72f, 72f)) {
 
+    private val frames = loadTiles("portals/$color", 32)
+
     init {
-        currentSprite = 0F
-        showTexture("")
+        currentSprite = frames.indices.random().toFloat()
+        showTexture(frames[currentSprite.toInt()])
         setBottomLeft(pos)
     }
 
     fun update() {
-
+        animate(frames, 0.2f)
     }
 }

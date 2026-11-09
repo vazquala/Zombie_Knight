@@ -19,5 +19,33 @@ open class Entity(size: Vec2) {
         val newPos = pos - Vec2(0f, rect.pos.y)
         setTopLeft(newPos)
     }
+
+    fun draw(surface: Surface) {
+        val tex = texture ?: return
+        surface.drawImage(tex, rect, flipH)
+    }
+
+    fun animate(frames: List<Texture>, speed: Float) : Boolean {
+        var finished = false
+        if (currentSprite < frames.size - 1) {
+            currentSprite += speed
+        } else {
+            currentSprite = 0f
+            finished = true
+        }
+        showTexture(frames[currentSprite.toInt()])
+        return finished
+    }
+
+    fun addSound(name: String): Sound = Assets.sound(name)
+
+    companion object {
+        const val WINDOW_WIDTH = 1280f
+        const val WINDOW_HEIGHT = 736f
+
+        fun loadFrame(folder: String, base: String, count: Int) = Assets.frames(folder, base, count)
+
+        fun loadTiles(folder: String, count: Int) = Assets.tiles(folder, count)
+    }
 }
 
